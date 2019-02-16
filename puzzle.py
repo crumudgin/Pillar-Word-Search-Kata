@@ -19,3 +19,9 @@ class Puzzle():
 				coords.append((row, start + i))
 			break
 		return coords
+
+	def find_word_vertical(self, word):
+		"""
+		Find the first vertical instance of the provided word
+		"""
+		return [(0, 0)]

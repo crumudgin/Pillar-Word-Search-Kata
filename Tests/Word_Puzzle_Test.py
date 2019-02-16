@@ -23,6 +23,7 @@ def test_puzzle_constructor(file_name, rows, cols):
     assert puzzle.rows == rows
     assert puzzle.cols == cols
 
+
 @pytest.mark.parametrize(("file_name",          "word", "location"),
                         [("point_puzzle.txt",   "A",    [(0, 0)]),                   # test that the function can return the coordanites of a substring
                          ("1D_puzzle.txt",      "B",    [(0, 1)]),                   # test that the function works with multiple substrings
@@ -34,3 +35,10 @@ def test_puzzle_constructor(file_name, rows, cols):
 def test_find_word_horizontal(file_name, word, location):
     puzzle = Puzzle(read_file(file_name))
     assert puzzle.find_word_horizontal(word) == location
+
+@pytest.mark.parametrize(("file_name",          "word", "location"),
+                        [("point_puzzle.txt",   "A",    [(0, 0)]),                   # test that the function can return the coordanites of a substring
+                        ])
+def test_find_word_vertical(file_name, word, location):
+    puzzle = Puzzle(read_file(file_name))
+    assert puzzle.find_word_vertical(word) == location
