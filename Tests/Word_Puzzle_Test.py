@@ -30,7 +30,8 @@ def test_puzzle_constructor(file_name, rows, cols, expected_puzzle):
                          ("1D_puzzle.txt",      "AB",   [(0, 0), (0, 1)]),           # test that the function works with larger substrings
                          ("2D_puzzle.txt",      "E",    [(1, 1)]),                   # test that the function works with 2d puzzles
                          ("2D_puzzle.txt",      "GHI",  [(2, 0), (2, 1), (2, 2)]),   # test that the function works with larger substrings with 2d puzzles
-                         ("2D_puzzle.txt",      "AC",   [])                          # test that the function wnorks with substrings that are not in the puzzle
+                         ("2D_puzzle.txt",      "AC",   []),                         # test that the function wnorks with substrings that are not in the puzzle
+                         ("2D_puzzle.txt",      "BA",   [(0, 1), (0, 0)])            # test that the function wnorks with substrings that are not in the puzzle
                         ])
 def test_find_word_horizontal(file_name, word, location):
     puzzle = Puzzle(read_file(file_name))
@@ -43,7 +44,8 @@ def test_find_word_horizontal(file_name, word, location):
                          ("1D_puzzle_rows.txt", "AB",   [(0, 0), (1, 0)]),           # test that the function works with larger substrings
                          ("2D_puzzle.txt",      "E",    [(1, 1)]),                   # test that the function works with 2d puzzles
                          ("2D_puzzle.txt",      "CFI",  [(0, 2), (1, 2), (2, 2)]),   # test that the function works with larger substrings with 2d puzzles
-                         ("2D_puzzle.txt",      "AC",   [])                          # test that the function wnorks with substrings that are not in the puzzle
+                         ("2D_puzzle.txt",      "AC",   []),                         # test that the function wnorks with substrings that are not in the puzzle
+                         ("2D_puzzle.txt",      "DA",   [(1, 0), (0, 0)])            # test that the function wnorks with substrings that are not in the puzzle
                         ])
 def test_find_word_vertical(file_name, word, location):
     puzzle = Puzzle(read_file(file_name))

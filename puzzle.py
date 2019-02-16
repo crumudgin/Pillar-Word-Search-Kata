@@ -12,6 +12,10 @@ class Puzzle():
 		return []
 
 	def __find_word_in_matrix(self, word, matrix_dim, string_func, coord_func):
+		"""
+		Find the given word in the matrix using the provided matrix_dim, string_func, and
+		coord_func for modularity.
+		"""
 		for index in range(matrix_dim):
 			string = string_func(index)
 			coords = self.__find_word_in_string(word, string)
@@ -29,7 +33,10 @@ class Puzzle():
 		def coord_func(coord, row):
 			return (row, coord)
 
-		return self.__find_word_in_matrix(word, self.rows, string_func, coord_func)
+		coords = self.__find_word_in_matrix(word, self.rows, string_func, coord_func)
+		if coords == []:
+			coords = self.__find_word_in_matrix(word[::-1], self.rows, string_func, coord_func)[::-1]
+		return coords
 
 	def find_word_vertical(self, word):
 		"""
@@ -40,4 +47,8 @@ class Puzzle():
 
 		def coord_func(coord, col):
 			return (coord, col)
-		return self.__find_word_in_matrix(word, self.cols, string_func, coord_func)
+
+		coords = self.__find_word_in_matrix(word, self.cols, string_func, coord_func)
+		if coords == []:
+			coords = self.__find_word_in_matrix(word[::-1], self.cols, string_func, coord_func)[::-1]
+		return coords
