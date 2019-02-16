@@ -23,9 +23,10 @@ def test_puzzle_constructor(file_name, rows, cols):
 	assert puzzle.rows == rows
 	assert puzzle.cols == cols
 
-@pytest.mark.parametrize((	"file_name",			"word"),
-						[(	"point_puzzle.txt",		"A")
+@pytest.mark.parametrize((	"file_name",			"word",	"location"),
+						[(	"point_puzzle.txt",		"A",	[(0, 0)]),
+						(	"1D_puzzle.txt",		"B",	[(0, 1)])
 						])
-def test_find_word_horizontal(file_name, word):
+def test_find_word_horizontal(file_name, word, location):
 	puzzle = Puzzle(read_file(file_name))
-	assert puzzle.find_word_horizontal(word) == [(0, 0)]
+	assert puzzle.find_word_horizontal(word) == location

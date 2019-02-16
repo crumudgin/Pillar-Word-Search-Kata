@@ -6,4 +6,4 @@ class Puzzle():
 		self.cols = len(self.puzzle[0])
 
 	def find_word_horizontal(self, word):
-		return [(0, 0)]
+		return [(0, self.puzzle[0].index(word))]
