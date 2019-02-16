@@ -5,32 +5,39 @@ class Puzzle():
 		self.rows = len(self.puzzle_matrix)
 		self.cols = len(self.puzzle_matrix[0])
 
+	def __find_word_in_string(self, word, string):
+		start = string.find(word)
+		if start > -1:
+			return (start + i for i in range(len(word)))
+		return []
+
+	def __find_word_in_matrix(self, word, matrix_dim, string_func, coord_func):
+		for index in range(matrix_dim):
+			string = string_func(index)
+			coords = self.__find_word_in_string(word, string)
+			if coords != []:
+				return [coord_func(coord, index) for coord in coords]
+		return []
+
 	def find_word_horizontal(self, word):
 		"""
 		Find the first horizontal instance of the provided word
 		"""
-		coords = []
-		for row in range(self.rows):
-			try:
-				start = self.puzzle_matrix[row].index(word)
-			except ValueError:
-				continue
-			for i in range(len(word)):
-				coords.append((row, start + i))
-			break
-		return coords
+		def string_func(row):
+			return self.puzzle_matrix[row]
+
+		def coord_func(coord, row):
+			return (row, coord)
+
+		return self.__find_word_in_matrix(word, self.rows, string_func, coord_func)
 
 	def find_word_vertical(self, word):
 		"""
 		Find the first vertical instance of the provided word
 		"""
-		coords = []
-		for col in range(self.cols):
-			col_string = "".join([self.puzzle_matrix[i][col] for i in range(self.rows)])
-			try:
-				start = col_string.index(word)
-			except ValueError:
-				continue
-			for i in range(len(word)):
-				coords.append((start + i, col))
-			return coords
+		def string_func(col):
+			return "".join([self.puzzle_matrix[i][col] for i in range(self.rows)])
+
+		def coord_func(coord, col):
+			return (coord, col)
+		return self.__find_word_in_matrix(word, self.cols, string_func, coord_func)
