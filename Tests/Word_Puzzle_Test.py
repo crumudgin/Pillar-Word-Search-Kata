@@ -41,6 +41,7 @@ def test_find_word_horizontal(file_name, word, location):
                         [("point_puzzle.txt",   "A",    [(0, 0)]),                   # test that the function can return the coordanites of a substring
                          ("1D_puzzle_rows.txt", "B",    [(1, 0)]),                   # test that the function works with multiple substrings
                          ("1D_puzzle_rows.txt", "AB",   [(0, 0), (1, 0)]),           # test that the function works with larger substrings
+                         ("2D_puzzle.txt",      "E",    [(1, 1)]),                   # test that the function works with 2d puzzles
                         ])
 def test_find_word_vertical(file_name, word, location):
     puzzle = Puzzle(read_file(file_name))
