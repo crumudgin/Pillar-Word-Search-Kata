@@ -52,3 +52,6 @@ class Puzzle():
 		if coords == []:
 			coords = self.__find_word_in_matrix(word[::-1], self.cols, string_func, coord_func)[::-1]
 		return coords
+
+	def find_word_diagnal_desending(self, word):
+		return [(0, 0)]
