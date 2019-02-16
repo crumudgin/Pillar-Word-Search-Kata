@@ -19,7 +19,7 @@ def read_file(file_name):
 def test_puzzle_constructor(file_name, rows, cols):
     puzzle_string = read_file(file_name)
     puzzle = Puzzle(puzzle_string)
-    assert puzzle.puzzle == puzzle_string.replace(", ", "").split("\n")
+    assert puzzle.puzzle_matrix == puzzle_string.replace(", ", "").split("\n")
     assert puzzle.rows == rows
     assert puzzle.cols == cols
 

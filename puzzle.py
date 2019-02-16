@@ -1,9 +1,9 @@
 class Puzzle():
 
 	def __init__(self, puzzle):
-		self.puzzle = puzzle.replace(", ", "").split("\n")
-		self.rows = len(self.puzzle)
-		self.cols = len(self.puzzle[0])
+		self.puzzle_matrix = puzzle.replace(", ", "").split("\n")
+		self.rows = len(self.puzzle_matrix)
+		self.cols = len(self.puzzle_matrix[0])
 
 	def find_word_horizontal(self, word):
 		"""
@@ -12,7 +12,7 @@ class Puzzle():
 		coords = []
 		for row in range(self.rows):
 			try:
-				start = self.puzzle[row].index(word)
+				start = self.puzzle_matrix[row].index(word)
 				for i in range(len(word)):
 					coords.append((row, start + i))
 				return coords
