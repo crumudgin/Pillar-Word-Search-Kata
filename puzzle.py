@@ -6,8 +6,15 @@ class Puzzle():
 		self.cols = len(self.puzzle[0])
 
 	def find_word_horizontal(self, word):
+		"""
+		Find the first horizontal instance of the provided word
+		"""
 		coords = []
-		start = self.puzzle[0].index(word)
-		for i in range(len(word)):
-			coords.append((0, start + i))
-		return coords
+		for row in range(self.rows):
+			try:
+				start = self.puzzle[row].index(word)
+				for i in range(len(word)):
+					coords.append((row, start + i))
+				return coords
+			except ValueError:
+				continue
