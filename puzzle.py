@@ -17,4 +17,5 @@ class Puzzle():
 				continue
 			for i in range(len(word)):
 				coords.append((row, start + i))
-			return coords
+			break
+		return coords
