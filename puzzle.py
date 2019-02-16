@@ -6,4 +6,8 @@ class Puzzle():
 		self.cols = len(self.puzzle[0])
 
 	def find_word_horizontal(self, word):
-		return [(0, self.puzzle[0].index(word))]
+		coords = []
+		start = self.puzzle[0].index(word)
+		for i in range(len(word)):
+			coords.append((0, start + i))
+		return coords
