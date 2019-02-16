@@ -13,8 +13,8 @@ class Puzzle():
 		for row in range(self.rows):
 			try:
 				start = self.puzzle_matrix[row].index(word)
-				for i in range(len(word)):
-					coords.append((row, start + i))
-				return coords
 			except ValueError:
 				continue
+			for i in range(len(word)):
+				coords.append((row, start + i))
+			return coords
