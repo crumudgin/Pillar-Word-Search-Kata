@@ -23,6 +23,9 @@ class Puzzle():
 				return [coord_func(coord, index) for coord in coords]
 		return []
 
+	def __find_reverse_word_in_matrix(self, word, matrix_dim, string_func, coord_func):
+		return self.__find_word_in_matrix(word[::-1], matrix_dim, string_func, coord_func)[::-1]
+
 	def find_word_horizontal(self, word):
 		"""
 		Find the first horizontal instance of the provided word
@@ -35,7 +38,7 @@ class Puzzle():
 
 		coords = self.__find_word_in_matrix(word, self.rows, string_func, coord_func)
 		if coords == []:
-			coords = self.__find_word_in_matrix(word[::-1], self.rows, string_func, coord_func)[::-1]
+			coords = self.__find_reverse_word_in_matrix(word, self.rows, string_func, coord_func)
 		return coords
 
 	def find_word_vertical(self, word):
@@ -50,8 +53,8 @@ class Puzzle():
 
 		coords = self.__find_word_in_matrix(word, self.cols, string_func, coord_func)
 		if coords == []:
-			coords = self.__find_word_in_matrix(word[::-1], self.cols, string_func, coord_func)[::-1]
+			coords = self.__find_reverse_word_in_matrix(word, self.cols, string_func, coord_func)
 		return coords
 
 	def find_word_diagnal_desending(self, word):
-		return [(0, 0)]
+		return self.find_word_horizontal(word)
