@@ -10,16 +10,16 @@ def read_file(file_name):
     return puzzle_string
 
 
-@pytest.mark.parametrize(("file_name",          "rows", "cols"),
-                        [("point_puzzle.txt",   1,      1),  # test that constructor works for simplest puzzle
-                         ("1D_puzzle.txt",      1,      5),  # test that constructor works with mutliple columns
-                         ("1D_puzzle_rows.txt", 5,      1),  # test that constructor works with multiple rows
-                         ("2D_puzzle.txt",      3,      3)   # test that constructor works for 2d puzzles
+@pytest.mark.parametrize(("file_name",          "rows", "cols", "expected_puzzle"),
+                        [("point_puzzle.txt",   1,      1,      ["A"]),                      # test that constructor works for simplest puzzle
+                         ("1D_puzzle.txt",      1,      5,      ["ABCDE"]),                  # test that constructor works with mutliple columns
+                         ("1D_puzzle_rows.txt", 5,      1,      ["A", "B", "C", "D", "E"]),  # test that constructor works with multiple rows
+                         ("2D_puzzle.txt",      3,      3,      ["ABC", "DEF", "GHI"])       # test that constructor works for 2d puzzles
                         ])
-def test_puzzle_constructor(file_name, rows, cols):
+def test_puzzle_constructor(file_name, rows, cols, expected_puzzle):
     puzzle_string = read_file(file_name)
     puzzle = Puzzle(puzzle_string)
-    assert puzzle.puzzle_matrix == puzzle_string.replace(", ", "").split("\n")
+    assert puzzle.puzzle_matrix == expected_puzzle
     assert puzzle.rows == rows
     assert puzzle.cols == cols
 
@@ -36,8 +36,10 @@ def test_find_word_horizontal(file_name, word, location):
     puzzle = Puzzle(read_file(file_name))
     assert puzzle.find_word_horizontal(word) == location
 
+
 @pytest.mark.parametrize(("file_name",          "word", "location"),
                         [("point_puzzle.txt",   "A",    [(0, 0)]),                   # test that the function can return the coordanites of a substring
+                         ("1D_puzzle_rows.txt", "B",    [(1, 0)]),                   # test that the function works with multiple substrings
                         ])
 def test_find_word_vertical(file_name, word, location):
     puzzle = Puzzle(read_file(file_name))

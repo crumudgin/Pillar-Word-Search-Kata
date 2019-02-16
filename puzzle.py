@@ -24,4 +24,5 @@ class Puzzle():
 		"""
 		Find the first vertical instance of the provided word
 		"""
-		return [(0, 0)]
+		col_string = "".join([self.puzzle_matrix[i][0] for i in range(self.rows)])
+		return [(col_string.index(word), 0)]
