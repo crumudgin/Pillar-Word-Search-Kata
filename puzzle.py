@@ -86,10 +86,11 @@ class Puzzle():
         Returnes: the coordinates of the word if they exist
         """
         def coord_func(coord, index):
+            min_dim = min(self.rows, self.cols)
             if index == 0:
                 return (coord, coord)
-            elif index > self.cols:
-                return (index - self.cols + 1, coord)
+            elif index > min_dim:
+                return (index - min_dim + 1, coord)
             return (coord, index)
 
         return self.__find_word_diagnal(word, self.puzzle_matrix, coord_func)
@@ -101,12 +102,13 @@ class Puzzle():
         Returnes: the coordinates of the word if they exist
         """
         def coord_func(coord, index):
+            min_dim = min(self.rows, self.cols) - 1
             if index == 0:
-                return (self.rows - 1 - coord, coord)
-            elif index > self.rows:
-                index -= self.cols - 1
-                return (self.cols - 1 - index, coord)
-            return (self.cols - 1 - coord, index)
+                return (min_dim - coord, coord)
+            elif index > min_dim:
+                index -= min_dim
+                return (min_dim - index, coord)
+            return (min_dim - coord, index)
 
         reversed_matrix = self.puzzle_matrix[::-1]
         return self.__find_word_diagnal(word, reversed_matrix, coord_func)
