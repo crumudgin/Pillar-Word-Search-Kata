@@ -55,13 +55,20 @@ class Puzzle():
 		def coord_func(coord, index):
 			if index == 0:
 				return (coord, coord)
+			elif index > self.cols:
+				return(index - self.cols + 1, coord)
 			return (coord, index)
 
 		string_lst = []
+
 		min_dim = min(self.rows, self.cols)
 		for col in range(self.cols):
 			string_lst.append("".join([self.puzzle_matrix[i][col + i] for i in range(min_dim)]))
 			min_dim -= 1
 
-		return self.__find_word_in_matrix(word, string_lst, coord_func)
+		min_dim = min(self.rows, self.cols) - 1
+		for row in range(1, self.rows):
+			string_lst.append("".join([self.puzzle_matrix[row + i][i] for i in range(min_dim)]))
+			min_dim -= 1
 
+		return self.__find_word_in_matrix(word, string_lst, coord_func)
