@@ -39,7 +39,6 @@ class Puzzle():
 		"""
 		Find the first vertical instance of the provided word
 		"""
-
 		def coord_func(coord, col):
 			return (coord, col)
 
@@ -53,12 +52,16 @@ class Puzzle():
 		"""
 		Find the first diagnal desending instance of the provided word
 		"""
-
 		def coord_func(coord, index):
-			return(coord, coord)
+			if index == 0:
+				return (coord, coord)
+			return (coord, index)
 
-		string = ""
-		for index in range(min(self.rows, self.cols)):
-			string += self.puzzle_matrix[index][index]
+		string_lst = []
+		min_dim = min(self.rows, self.cols)
+		for col in range(self.cols):
+			string_lst.append("".join([self.puzzle_matrix[i][col + i] for i in range(min_dim)]))
+			min_dim -= 1
 
-		return self.__find_word_in_matrix(word, [string], coord_func)
+		return self.__find_word_in_matrix(word, string_lst, coord_func)
+
