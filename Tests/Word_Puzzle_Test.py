@@ -62,3 +62,13 @@ def test_find_word_vertical(file_name, word, location):
 def test_find_word_diagnal_desending(file_name, word, location):
     puzzle = Puzzle(read_file(file_name))
     assert puzzle.find_word_diagnal_desending(word) == location
+
+
+@pytest.mark.parametrize(("file_name",          "word", "location"),
+                        [("point_puzzle.txt",   "A",    [(0, 0)]),                   # test that the function can return the coordanites of a substring
+                         ("2D_puzzle.txt",      "E",    [(1, 1)]),                   # test that the function works with multiple substrings
+                         ("2D_puzzle.txt",      "CE",   [(0, 2), (1, 1)]),           # test that the function works with multichar substrings
+                        ])
+def test_find_word_diagnal_assending(file_name, word, location):
+    puzzle = Puzzle(read_file(file_name))
+    assert puzzle.find_word_diagnal_assending(word) == location
