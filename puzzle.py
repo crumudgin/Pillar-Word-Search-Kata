@@ -11,50 +11,54 @@ class Puzzle():
 			return (start + i for i in range(len(word)))
 		return []
 
-	def __find_word_in_matrix(self, word, matrix_dim, string_func, coord_func):
+	def __find_word_in_matrix(self, word, strings, coord_func, reversed_string=False):
 		"""
-		Find the given word in the matrix using the provided matrix_dim, string_func, and
+		Find the given word in the matrix using the provided strings, string_func, and
 		coord_func for modularity.
 		"""
-		for index in range(matrix_dim):
-			string = string_func(index)
+		for index, string in enumerate(strings):
 			coords = self.__find_word_in_string(word, string)
 			if coords != []:
 				return [coord_func(coord, index) for coord in coords]
-		return []
 
-	def __find_reverse_word_in_matrix(self, word, matrix_dim, string_func, coord_func):
-		return self.__find_word_in_matrix(word[::-1], matrix_dim, string_func, coord_func)[::-1]
+		if reversed_string:
+			return []
+
+		return self.__find_word_in_matrix(word[::-1], strings, coord_func, True)[::-1]
 
 	def find_word_horizontal(self, word):
 		"""
 		Find the first horizontal instance of the provided word
 		"""
-		def string_func(row):
-			return self.puzzle_matrix[row]
-
 		def coord_func(coord, row):
 			return (row, coord)
 
-		coords = self.__find_word_in_matrix(word, self.rows, string_func, coord_func)
-		if coords == []:
-			coords = self.__find_reverse_word_in_matrix(word, self.rows, string_func, coord_func)
-		return coords
+		return self.__find_word_in_matrix(word, self.puzzle_matrix, coord_func)
 
 	def find_word_vertical(self, word):
 		"""
 		Find the first vertical instance of the provided word
 		"""
-		def string_func(col):
-			return "".join([self.puzzle_matrix[i][col] for i in range(self.rows)])
 
 		def coord_func(coord, col):
 			return (coord, col)
 
-		coords = self.__find_word_in_matrix(word, self.cols, string_func, coord_func)
-		if coords == []:
-			coords = self.__find_reverse_word_in_matrix(word, self.cols, string_func, coord_func)
-		return coords
+		string_lst = []
+		for col in range(self.cols):
+			string_lst.append("".join([self.puzzle_matrix[row][col] for row in range(self.rows)]))
+
+		return self.__find_word_in_matrix(word, string_lst, coord_func)
 
 	def find_word_diagnal_desending(self, word):
-		return self.find_word_horizontal(word)
+		"""
+		Find the first diagnal desending instance of the provided word
+		"""
+
+		def coord_func(coord, index):
+			return(coord, coord)
+
+		string = ""
+		for index in range(min(self.rows, self.cols)):
+			string += self.puzzle_matrix[index][index]
+
+		return self.__find_word_in_matrix(word, [string], coord_func)
