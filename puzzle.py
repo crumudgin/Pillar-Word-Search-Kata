@@ -101,7 +101,9 @@ class Puzzle():
         Returnes: the coordinates of the word if they exist
         """
         def coord_func(coord, index):
-            return (self.rows - 1 - coord, coord)
+            if index == 0:
+                return (self.rows - 1 - coord, coord)
+            return (self.cols - 1 - coord, index)
 
         reversed_matrix = self.puzzle_matrix[::-1]
         return self.__find_word_diagnal(word, reversed_matrix, coord_func)

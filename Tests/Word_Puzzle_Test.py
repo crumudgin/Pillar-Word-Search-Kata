@@ -56,8 +56,8 @@ def test_find_word_vertical(file_name, word, location):
                         [("point_puzzle.txt",   "A",    [(0, 0)]),                   # test that the function can return the coordanites of a substring
                          ("2D_puzzle.txt",      "E",    [(1, 1)]),                   # test that the function works with multiple substrings
                          ("2D_puzzle.txt",      "AE",   [(0, 0), (1, 1)]),           # test that the function works with multichar substrings
-                         ("2D_puzzle.txt",      "C",   [(0, 2)]),                    # test that the function works outside the matrices diagonal
-                         ("2D_puzzle.txt",      "G",   [(2, 0)]),                    # test that the function works outside the matrices diagonal
+                         ("2D_puzzle.txt",      "C",    [(0, 2)]),                    # test that the function works outside the matrices diagonal
+                         ("2D_puzzle.txt",      "G",    [(2, 0)]),                    # test that the function works outside the matrices diagonal
                         ])
 def test_find_word_diagnal_desending(file_name, word, location):
     puzzle = Puzzle(read_file(file_name))
@@ -68,6 +68,7 @@ def test_find_word_diagnal_desending(file_name, word, location):
                         [("point_puzzle.txt",   "A",    [(0, 0)]),                   # test that the function can return the coordanites of a substring
                          ("2D_puzzle.txt",      "E",    [(1, 1)]),                   # test that the function works with multiple substrings
                          ("2D_puzzle.txt",      "CE",   [(0, 2), (1, 1)]),           # test that the function works with multichar substrings
+                         ("2D_puzzle.txt",      "I",    [(2, 2)]),                   # test that the function works outside the matrices diagonal
                         ])
 def test_find_word_diagnal_assending(file_name, word, location):
     puzzle = Puzzle(read_file(file_name))
