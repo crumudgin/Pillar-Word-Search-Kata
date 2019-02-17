@@ -1,9 +1,9 @@
 class Puzzle():
 
     def __init__(self, puzzle):
-        self.puzzle_matrix = puzzle.replace(", ", "").split("\n")
-        self.rows = len(self.puzzle_matrix)
-        self.cols = len(self.puzzle_matrix[0])
+        self.matrix = puzzle.replace(", ", "").split("\n")
+        self.rows = len(self.matrix)
+        self.cols = len(self.matrix[0])
 
     def __find_word_in_matrix(self, word, strings, coord_func, reversed_string=False):
         """
@@ -36,7 +36,7 @@ class Puzzle():
         def coord_func(coord, row):
             return (row, coord)
 
-        return self.__find_word_in_matrix(word, self.puzzle_matrix, coord_func)
+        return self.__find_word_in_matrix(word, self.matrix, coord_func)
 
     def find_word_vertical(self, word):
         """
@@ -49,32 +49,32 @@ class Puzzle():
 
         string_lst = []
         for col in range(self.cols):
-            string_lst.append("".join([self.puzzle_matrix[row][col] for row in range(self.rows)]))
+            string_lst.append("".join([self.matrix[row][col] for row in range(self.rows)]))
 
         return self.__find_word_in_matrix(word, string_lst, coord_func)
 
-    def __find_word_diagnal(self, word, puzzle_matrix, coord_func):
+    def __find_word_diagnal(self, word, matrix, coord_func):
         """
         Logic for finding a substring in the diagnals of a matrix
         Paramaters: word          - the substring the function is atempting to locate
-                    puzzle_matrix - the matrix the function will search
+                    matrix        - the matrix the function will search
                     coord_func    - a function containing the logic for
                                       determaning the coordinates
         Returns: the coordinates of the provided word within the desending diagnals
-                 of the puzzle_matrix
+                 of the matrix
         """
         string_lst = []
 
         # create list of strings above (and including) the desending diagnal
         min_dim = min(self.rows, self.cols)
         for col in range(self.cols):
-            string_lst.append("".join([puzzle_matrix[i][col + i] for i in range(min_dim)]))
+            string_lst.append("".join([matrix[i][col + i] for i in range(min_dim)]))
             min_dim -= 1
 
         # create list of strings below the desending diagnal
         min_dim = min(self.rows, self.cols) - 1
         for row in range(1, self.rows):
-            string_lst.append("".join([puzzle_matrix[row + i][i] for i in range(min_dim)]))
+            string_lst.append("".join([matrix[row + i][i] for i in range(min_dim)]))
             min_dim -= 1
 
         return self.__find_word_in_matrix(word, string_lst, coord_func)
@@ -93,7 +93,7 @@ class Puzzle():
                 return (index - min_dim + 1, coord)
             return (coord, index)
 
-        return self.__find_word_diagnal(word, self.puzzle_matrix, coord_func)
+        return self.__find_word_diagnal(word, self.matrix, coord_func)
 
     def find_word_diagnal_assending(self, word):
         """
@@ -110,5 +110,5 @@ class Puzzle():
                 return (min_dim - index, coord)
             return (min_dim - coord, index)
 
-        reversed_matrix = self.puzzle_matrix[::-1]
+        reversed_matrix = self.matrix[::-1]
         return self.__find_word_diagnal(word, reversed_matrix, coord_func)
