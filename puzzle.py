@@ -89,7 +89,7 @@ class Puzzle():
             if index == 0:
                 return (coord, coord)
             elif index > self.cols:
-                return(index - self.cols + 1, coord)
+                return (index - self.cols + 1, coord)
             return (coord, index)
 
         return self.__find_word_diagnal(word, self.puzzle_matrix, coord_func)
@@ -103,6 +103,9 @@ class Puzzle():
         def coord_func(coord, index):
             if index == 0:
                 return (self.rows - 1 - coord, coord)
+            elif index > self.rows:
+                index -= self.cols - 1
+                return (self.cols - 1 - index, coord)
             return (self.cols - 1 - coord, index)
 
         reversed_matrix = self.puzzle_matrix[::-1]
