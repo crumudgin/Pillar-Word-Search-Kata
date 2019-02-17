@@ -5,19 +5,6 @@ class Puzzle():
         self.rows = len(self.puzzle_matrix)
         self.cols = len(self.puzzle_matrix[0])
 
-    def __find_word_in_string(self, word, string):
-        """
-        Finds the coordinates of each char in the provided word within the provided string
-        Paramaters: word    - the substring that the function is atempting to find
-                              within the string
-                    string  - the string the function will search within
-        Returns: the location of the substring and all of its charachters within the string
-        """
-        start = string.find(word)
-        if start > -1:
-            return (start + i for i in range(len(word)))
-        return []
-
     def __find_word_in_matrix(self, word, strings, coord_func, reversed_string=False):
         """
         Find the given word in the matrix using the provided strings, string_func, and
@@ -25,12 +12,14 @@ class Puzzle():
         Paramaters: word       - the substring the function is atempting to locate
                     strings    - the strings the function should search
                     coord_func - the function containing the logic for the coordinates
+                    reversed_string - the boolean that determins if the function should
+                                      attempt to find a solution with the string reveresd
         Returns: the coordinates of the word within the strings
         """
         for index, string in enumerate(strings):
-            coords = self.__find_word_in_string(word, string)
-            if coords != []:
-                return [coord_func(coord, index) for coord in coords]
+            start = string.find(word)
+            if start > -1:
+                return [coord_func(start + i, index) for i in range(len(word))]
 
         if reversed_string:
             return []
@@ -78,11 +67,13 @@ class Puzzle():
 
         string_lst = []
 
+        # create list of strings above (and including) the desending diagnal
         min_dim = min(self.rows, self.cols)
         for col in range(self.cols):
             string_lst.append("".join([self.puzzle_matrix[i][col + i] for i in range(min_dim)]))
             min_dim -= 1
 
+        # create list of strings below the desending diagnal
         min_dim = min(self.rows, self.cols) - 1
         for row in range(1, self.rows):
             string_lst.append("".join([self.puzzle_matrix[row + i][i] for i in range(min_dim)]))
