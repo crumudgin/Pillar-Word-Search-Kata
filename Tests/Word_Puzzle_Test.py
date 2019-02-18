@@ -87,9 +87,14 @@ def test_find_word_diagnal_assending(file_name, word, location):
                          ("2D_puzzle.txt",          "HD",     [(2, 1), (1, 0)]),          # test that the function works diagnally densending
                          ("2D_puzzle.txt",          "AEI",    [(0, 0), (1, 1), (2, 2)]),  # test that the function works diagnally densending
                          ("2D_puzzle.txt",          "BF",     [(0, 1), (1, 2)]),          # test that the function works diagnally densending
-                         ("2D_puzzle.txt",          "DB",     [(1, 0), (0, 1)]),          # test that the function works diagnally densending
-                         ("2D_puzzle.txt",          "GEC",    [(2, 0), (1, 1), (0, 2)]),  # test that the function works diagnally densending
-                         ("2D_puzzle.txt",          "HF",     [(2, 1), (1, 2)]),          # test that the function works diagnally densending
+                         ("2D_puzzle.txt",          "DB",     [(1, 0), (0, 1)]),          # test that the function works diagnally assending
+                         ("2D_puzzle.txt",          "GEC",    [(2, 0), (1, 1), (0, 2)]),  # test that the function works diagnally assending
+                         ("2D_puzzle.txt",          "HF",     [(2, 1), (1, 2)]),          # test that the function works diagnally assending
+                         ("2D_puzzle.txt",          "E",      [(1, 1)]),                  # test that the function works diagnally densending
+                         ("uneven_puzzle.txt",      "DEF",    [(1, 0), (1, 1), (1, 2)]),  # test that the function works on non-square matricies
+                         ("uneven_puzzle.txt",      "BE",     [(0, 1), (1, 1)]),          # test that the function works on non-square matricies
+                         ("uneven_puzzle.txt",      "BF",     [(0, 1), (1, 2)]),          # test that the function works on non-square matricies
+                         ("uneven_puzzle.txt",      "BD",     [(0, 1), (1, 0)]),          # test that the function works on non-square matricies
                         ])
 def test_find_word(file_name, word, location):
     puzzle = Puzzle(read_file(file_name))

@@ -57,16 +57,16 @@ class Puzzle():
         row += index
         return (row, col)
 
-    def add_coordinates(self, current_coordinates, word, func):
+    def __add_coordinates(self, current_coordinates, word, func):
         if current_coordinates == []:
             return func(word)
         return current_coordinates
 
     def find_word(self, word):
-        coordinates = self.add_coordinates([], word, self.find_word_horizontal)
-        coordinates = self.add_coordinates(coordinates, word, self.find_word_vertical)
-        coordinates = self.add_coordinates(coordinates, word, self.find_word_diagnal_desending)
-        coordinates = self.add_coordinates(coordinates, word, self.find_word_diagnal_assending)
+        coordinates = self.__add_coordinates([], word, self.find_word_horizontal)
+        coordinates = self.__add_coordinates(coordinates, word, self.find_word_vertical)
+        coordinates = self.__add_coordinates(coordinates, word, self.find_word_diagnal_desending)
+        coordinates = self.__add_coordinates(coordinates, word, self.find_word_diagnal_assending)
         return coordinates
 
     def find_word_horizontal(self, word):
