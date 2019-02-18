@@ -84,7 +84,11 @@ def test_find_word_diagnal_assending(file_name, word, location):
                          ("2D_puzzle.txt",          "ADG",    [(0, 0), (1, 0), (2, 0)]),  # test that the function works vertically
                          ("2D_puzzle.txt",          "BEH",    [(0, 1), (1, 1), (2, 1)]),  # test that the function works vertically
                          ("2D_puzzle.txt",          "CFI",    [(0, 2), (1, 2), (2, 2)]),  # test that the function works vertically
-                         
+                         ("2D_puzzle.txt",          "G",      [(2, 0)]),                  # test that the function works diagnally densending
+                         ("2D_puzzle.txt",          "HD",     [(2, 1), (1, 0)]),          # test that the function works diagnally densending
+                         ("2D_puzzle.txt",          "AEI",    [(0, 0), (1, 1), (2, 2)]),  # test that the function works diagnally densending
+                         ("2D_puzzle.txt",          "BF",     [(0, 1), (1, 2)]),          # test that the function works diagnally densending
+                         ("2D_puzzle.txt",          "C",      [(0, 2)]),                  # test that the function works diagnally densending
                         ])
 def test_find_word(file_name, word, location):
     puzzle = Puzzle(read_file(file_name))
