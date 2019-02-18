@@ -5,14 +5,11 @@ class Puzzle():
         self.rows = len(self.matrix)
         self.cols = len(self.matrix[0])
 
-    def __find_word_in_matrix(self, word, strings, coord_func, reversed_string=False):
+    def __find_word_in_matrix(self, word, strings, reversed_string=False):
         """
-        Find the given word in the matrix using the provided strings, string_func, and
-        coord_func for modularity.
+        Find the given word in the matrix using the provided strings.
         Paramaters: word            - the substring the function is atempting to locate
                     strings         - the strings the function should search
-                    coord_func      - a function containing the logic for
-                                      determaning the coordinates
                     reversed_string - the boolean that determins if the function should
                                       attempt to find a solution with the string reveresd
         Returns: the coordinates of the word within the strings
@@ -20,40 +17,14 @@ class Puzzle():
         for index, string in enumerate(strings):
             start = string.find(word)
             if start > -1:
-                return [coord_func(start + i, index) for i in range(len(word))]
+                return [(start + i, index) for i in range(len(word))]
 
         if reversed_string:
             return []
 
-        return self.__find_word_in_matrix(word[::-1], strings, coord_func, True)[::-1]
+        return self.__find_word_in_matrix(word[::-1], strings, True)[::-1]
 
-    def find_word_horizontal(self, word):
-        """
-        Find the first horizontal instance of the provided word
-        Paramaters: word - the substring the function is atempting to locate
-        Returnes: the coordinates of the word if they exist
-        """
-        def coord_func(coord, row):
-            return (row, coord)
-
-        return self.__find_word_in_matrix(word, self.matrix, coord_func)
-
-    def find_word_vertical(self, word):
-        """
-        Find the first vertical instance of the provided word
-        Paramaters: word - the substring the function is atempting to locate
-        Returnes: the coordinates of the word if they exist
-        """
-        def coord_func(coord, col):
-            return (coord, col)
-
-        string_lst = []
-        for col in range(self.cols):
-            string_lst.append("".join([self.matrix[row][col] for row in range(self.rows)]))
-
-        return self.__find_word_in_matrix(word, string_lst, coord_func)
-
-    def __find_word_diagnal(self, word, matrix, coord_func):
+    def __word_to_polar_coords(self, word, matrix):
         """
         Logic for finding a substring in the diagnals of a matrix
         Paramaters: word          - the substring the function is atempting to locate
@@ -63,21 +34,51 @@ class Puzzle():
         Returns: the coordinates of the provided word within the desending diagnals
                  of the matrix
         """
+        string_lst = [[] for i in range(self.rows + self.cols - 1)]
+
+        for x in range(self.rows):
+            for y in range(self.cols):
+                string_lst[y + x].append(matrix[x][y])
+        string_lst = list(map("".join, string_lst))
+        print(string_lst)
+
+        return self.__find_word_in_matrix(word, string_lst)
+
+    def __polar_coords_to_cartesian_coords(self, diagnal_coordinate, desending):
+        """
+        BAD NEED TO REFACTOR
+        """
+        index, diagnal = diagnal_coordinate
+        col = 0 if desending else self.cols - 1
+        row = diagnal - self.cols + 1
+        if diagnal < self.cols:
+            col = (self.cols - diagnal - 1) if desending else diagnal
+            row = 0
+        col = (col + index) if desending else (col - index)
+        row += index
+        return (row, col)
+
+    def find_word_horizontal(self, word):
+        """
+        Find the first horizontal instance of the provided word
+        Paramaters: word - the substring the function is atempting to locate
+        Returnes: the coordinates of the word if they exist
+        """
+        coordinates = self.__find_word_in_matrix(word, self.matrix)
+        return [(row, col) for col, row in coordinates]
+
+    def find_word_vertical(self, word):
+        """
+        Find the first vertical instance of the provided word
+        Paramaters: word - the substring the function is atempting to locate
+        Returnes: the coordinates of the word if they exist
+        """
         string_lst = []
-
-        # create list of strings above (and including) the desending diagnal
-        min_dim = min(self.rows, self.cols)
         for col in range(self.cols):
-            string_lst.append("".join([matrix[i][col + i] for i in range(min_dim)]))
-            min_dim -= 1
+            string_lst.append("".join([self.matrix[row][col] for row in range(self.rows)]))
 
-        # create list of strings below the desending diagnal
-        min_dim = min(self.rows, self.cols) - 1
-        for row in range(1, self.rows):
-            string_lst.append("".join([matrix[row + i][i] for i in range(min_dim)]))
-            min_dim -= 1
-
-        return self.__find_word_in_matrix(word, string_lst, coord_func)
+        coordinates = self.__find_word_in_matrix(word, string_lst)
+        return [(row, col) for row, col in coordinates]
 
     def find_word_diagnal_desending(self, word):
         """
@@ -85,15 +86,9 @@ class Puzzle():
         Paramaters: word - the substring the function is atempting to locate
         Returnes: the coordinates of the word if they exist
         """
-        def coord_func(coord, index):
-            min_dim = min(self.rows, self.cols)
-            if index == 0:
-                return (coord, coord)
-            elif index > min_dim:
-                return (index - min_dim + 1, coord)
-            return (coord, index)
-
-        return self.__find_word_diagnal(word, self.matrix, coord_func)
+        reversed_matrix = [i[::-1] for i in self.matrix]
+        diagnal_coordinates = self.__word_to_polar_coords(word, reversed_matrix)
+        return [self.__polar_coords_to_cartesian_coords(i, True) for i in diagnal_coordinates]
 
     def find_word_diagnal_assending(self, word):
         """
@@ -101,14 +96,5 @@ class Puzzle():
         Paramaters: word - the substring the function is atempting to locate
         Returnes: the coordinates of the word if they exist
         """
-        def coord_func(coord, index):
-            min_dim = min(self.rows, self.cols) - 1
-            if index == 0:
-                return (min_dim - coord, coord)
-            elif index > min_dim:
-                index -= min_dim
-                return (min_dim - index, coord)
-            return (min_dim - coord, index)
-
-        reversed_matrix = self.matrix[::-1]
-        return self.__find_word_diagnal(word, reversed_matrix, coord_func)
+        diagnal_coordinates = self.__word_to_polar_coords(word, self.matrix)
+        return [self.__polar_coords_to_cartesian_coords(i, False) for i in diagnal_coordinates]
