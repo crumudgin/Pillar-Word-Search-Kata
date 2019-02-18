@@ -58,6 +58,11 @@ class Puzzle():
         row += index
         return (row, col)
 
+    def find_word(self, word):
+        coordinates = self.find_word_horizontal(word)
+        coordinates += self.find_word_vertical(word)
+        return coordinates
+
     def find_word_horizontal(self, word):
         """
         Find the first horizontal instance of the provided word

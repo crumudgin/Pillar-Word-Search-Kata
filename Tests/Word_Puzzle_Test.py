@@ -76,3 +76,16 @@ def test_find_word_diagnal_desending(file_name, word, location):
 def test_find_word_diagnal_assending(file_name, word, location):
     puzzle = Puzzle(read_file(file_name))
     assert puzzle.find_word_diagnal_assending(word) == location
+
+@pytest.mark.parametrize(("file_name",              "word", "location"),
+                        [("2D_puzzle.txt",          "ABC",    [(0, 0), (0, 1), (0, 2)]),  # test that the function works horizontaly
+                         ("2D_puzzle.txt",          "DEF",    [(1, 0), (1, 1), (1, 2)]),  # test that the function works horizontaly
+                         ("2D_puzzle.txt",          "GHI",    [(2, 0), (2, 1), (2, 2)]),  # test that the function works horizontaly
+                         ("2D_puzzle.txt",          "ADG",    [(0, 0), (1, 0), (2, 0)]),  # test that the function works vertically
+                         ("2D_puzzle.txt",          "BEH",    [(0, 1), (1, 1), (2, 1)]),  # test that the function works vertically
+                         ("2D_puzzle.txt",          "CFI",    [(0, 2), (1, 2), (2, 2)]),  # test that the function works vertically
+                         
+                        ])
+def test_find_word(file_name, word, location):
+    puzzle = Puzzle(read_file(file_name))
+    assert puzzle.find_word(word) == location
