@@ -58,11 +58,24 @@ class Puzzle():
         return (row, col)
 
     def __add_coordinates(self, current_coordinates, word, func):
+        """
+        Executes the provided func if the word has not been found yet.
+        Paramaters: current_coordinates - a list containing the coordinates of the word if found
+                    word                - the substring the function is atempting to locate
+                    func                - the function to execute and return if the word has not
+                                          been found
+        Returns: The output of the provided func
+        """
         if current_coordinates == []:
             return func(word)
         return current_coordinates
 
     def find_word(self, word):
+        """
+        Find an occurence of the given word if it exists within the puzzle matrix
+        Paramaters: word - the substring the function is atempting to locate
+        Returnes: the coordinaters of the word within the puzzle matrix
+        """
         coordinates = self.__add_coordinates([], word, self.find_word_horizontal)
         coordinates = self.__add_coordinates(coordinates, word, self.find_word_vertical)
         coordinates = self.__add_coordinates(coordinates, word, self.find_word_diagnal_desending)
